@@ -20,7 +20,7 @@ const EditBlog = ({ blog }) => {
     };
     const handleEdit = e => {
         e.preventDefault();
-        editPost(edited);
+        editPost(edited, blog.id);
         setOpenEditBlog(false);
     };
     return (
@@ -71,18 +71,18 @@ const EditBlog = ({ blog }) => {
                                 style={{ marginTop: "2rem" }}
                                 label="Image URL"
                                 variant="outlined"
-                                name="image"
+                                name="image_url"
                                 onChange={e => handleChange(e)}
-                                value={edited.image}
+                                value={edited.image_url}
                             />
                             <TextField
                                 style={{ marginTop: "2rem" }}
                                 label="Entry"
                                 variant="outlined"
                                 required
-                                name="info"
+                                name="content"
                                 onChange={e => handleChange(e)}
-                                value={edited.info}
+                                value={edited.content}
                                 minRows="4"
                                 maxRows="10"
                                 multiline

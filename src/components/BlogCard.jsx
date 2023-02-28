@@ -65,7 +65,7 @@ const BlogCard = ({ blog }) => {
                             More
                         </Button>
                     </Link>
-                    {currentUser?.uid === blog.userId && (
+                    {currentUser?.id === blog.author_id && (
                         <>
                             <EditBlog blog={blog} />
                             <Button

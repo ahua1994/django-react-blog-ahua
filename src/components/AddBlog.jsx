@@ -25,7 +25,7 @@ const AddBlog = ({ user }) => {
         <>
             <div
                 onClick={() => {
-                    let newPost = { ...post, author: user.displayName, userId: user.uid };
+                    let newPost = { ...post, author: user.username, author_id: user.id };
                     setPost(newPost);
                     setOpenAddBlog(true);
                 }}
@@ -65,9 +65,9 @@ const AddBlog = ({ user }) => {
                             style={{ marginTop: "2rem" }}
                             label="Image URL"
                             variant="outlined"
-                            name="image"
+                            name="image_url"
                             onChange={e => handleChange(e)}
-                            value={post.image || ""}
+                            value={post.image_url || ""}
                             placeholder="Optional Image Link"
                         />
                         <TextField
@@ -75,9 +75,9 @@ const AddBlog = ({ user }) => {
                             label="Entry"
                             variant="outlined"
                             required
-                            name="info"
+                            name="content"
                             onChange={e => handleChange(e)}
-                            value={post.info || ""}
+                            value={post.content || ""}
                             minRows="4"
                             maxRows="10"
                             multiline

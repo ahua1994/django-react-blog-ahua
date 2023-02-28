@@ -26,7 +26,6 @@ const AuthContextProvider = ({ children }) => {
     const [registerEmail, setRegisterEmail] = useState("");
     const [registerPassword, setRegisterPassword] = useState("");
     const { setOpenLogin, baseUrl } = useContext(BlogContext);
-
     const toastStyle = {
         position: "top-center",
         autoClose: 3000,
@@ -46,24 +45,24 @@ const AuthContextProvider = ({ children }) => {
         // } catch (err) {
         //     return toast.error(err.message.replace("Firebase:", ""), toastStyle);
         // }
-        try {
-            const res = await axios.post(`${baseUrl}user/register/`, {
+        const res = await axios
+            .post(`${baseUrl}user/register/`, {
                 email: registerEmail,
                 password: registerPassword,
                 username: registerUsername,
-            });
+            })
+            .catch(err => toast.error(err.message, toastStyle));
+        if (res) {
             localStorage.setItem(
                 "DJ_REACT_CURRENT_USER",
                 JSON.stringify({ key: res.data.key, ...res.data.user })
             );
             setCurrentUser({ key: res.data.key, ...res.data.user });
-        } catch (err) {
-            return toast.error(err.message, toastStyle);
+            setRegisterEmail("");
+            setRegisterPassword("");
+            setRegisterUsername("");
+            toast.success("Registered Successfully!", toastStyle);
         }
-        setRegisterEmail("");
-        setRegisterPassword("");
-        setRegisterUsername("");
-        toast.success("Registered Successfully!", toastStyle);
     };
 
     // const forgetPassword = async email => {
@@ -93,25 +92,20 @@ const AuthContextProvider = ({ children }) => {
         // toast.success("Login Successful !", toastStyle);
         // setOpenLogin(false);
         e.preventDefault();
-        try {
-            const res = await axios.post(`${baseUrl}user/login/`, {
+        const res = await axios
+            .post(`${baseUrl}user/login/`, {
                 username: loginEmail,
                 password: loginPassword,
-            });
-            setCurrentUser({ key: res.data.token, ...res.data.user });
-            console.log(res);
-            console.log(currentUser);
-            localStorage.setItem(
-                "DJ_REACT_CURRENT_USER",
-                JSON.stringify({ key: res.data.token, ...res.data.user })
-            );
-        } catch (err) {
-            return toast.error("An Error Occured :(", toastStyle);
+            })
+            .catch(err => toast.error("An Error Occured :(", toastStyle));
+        if (res) {
+            setCurrentUser({ ...res.data });
+            localStorage.setItem("DJ_REACT_CURRENT_USER", JSON.stringify({ ...res.data }));
+            setLoginEmail("");
+            setLoginPassword("");
+            toast.success("Login Successful !", toastStyle);
+            setOpenLogin(false);
         }
-        setLoginEmail("");
-        setLoginPassword("");
-        toast.success("Login Successful !", toastStyle);
-        setOpenLogin(false);
     };
 
     // const userObserver = setCurrentUser => {

@@ -71,18 +71,22 @@ const BlogContextProvider = ({ children }) => {
         // } catch (err) {
         //     toast.error(err.message.replace("Firebase:", ""), toastStyle);
         // }
-        try {
-            // let date = new Date();
-            // let postDate = `Posted ${date.toLocaleDateString("en-us", {
-            //     year: "numeric",
-            //     month: "short",
-            //     day: "numeric",
-            // })} at ${date.getHours()}:${String(date.getMinutes()).padStart(2, "0")}`;
-            axios.post(`${baseUrl}blog/post/`, obj);
-            toast.success("Thank You For Posting!", toastStyle);
-        } catch (err) {
-            toast.error(err.message, toastStyle);
-        }
+        // let date = new Date();
+        // let postDate = `Posted ${date.toLocaleDateString("en-us", {
+        //     year: "numeric",
+        //     month: "short",
+        //     day: "numeric",
+        // })} at ${date.getHours()}:${String(date.getMinutes()).padStart(2, "0")}`;
+        let res = await axios
+            .post(`${baseUrl}blog/post/`, obj, {
+                headers: {
+                    Authorization: `Token ${
+                        JSON.parse(localStorage.getItem("DJ_REACT_CURRENT_USER")).key
+                    }`,
+                },
+            })
+            .catch(err => toast.error(err.message, toastStyle));
+        res && toast.success("Thank You For Posting!", toastStyle);
     };
 
     // const setLikes = async (obj, uid) => {
@@ -105,7 +109,7 @@ const BlogContextProvider = ({ children }) => {
     //     }
     // };
 
-    const editPost = async obj => {
+    const editPost = async (obj, id) => {
         // const docRef = doc(db, "/posts/" + obj.postId);
         // try {
         //     let date = new Date();
@@ -121,19 +125,24 @@ const BlogContextProvider = ({ children }) => {
         // }
 
         // const docRef = doc(db, "/posts/" + obj.postId);
-        try {
-            // let date = new Date();
-            // let editDate = `Edited ${date.toLocaleDateString("en-us", {
-            //     year: "numeric",
-            //     month: "short",
-            //     day: "numeric",
-            // })} at ${date.getHours()}:${String(date.getMinutes()).padStart(2, "0")}`;
-            let postId;
-            axios.patch(`${baseUrl}blog/rud/${postId}/`, obj);
-            toast.success("Your Post Has Been Edited!", toastStyle);
-        } catch (err) {
-            toast.error(err.message, toastStyle);
-        }
+        // let date = new Date();
+        // let editDate = `Edited ${date.toLocaleDateString("en-us", {
+        //     year: "numeric",
+        //     month: "short",
+        //     day: "numeric",
+        // })} at ${date.getHours()}:${String(date.getMinutes()).padStart(2, "0")}`;
+        let res = await axios
+            .patch(`${baseUrl}blog/rud/${id}/`, obj, {
+                headers: {
+                    Authorization: `Token ${
+                        JSON.parse(localStorage.getItem("DJ_REACT_CURRENT_USER")).key
+                    }`,
+                },
+            })
+            .catch(err => {
+                toast.error(err.message, toastStyle);
+            });
+        res && toast.success("Your Post Has Been Edited!", toastStyle);
     };
 
     const deletePost = async id => {
@@ -143,12 +152,16 @@ const BlogContextProvider = ({ children }) => {
         // } catch (err) {
         //     toast.error(err.message.replace("Firebase:", ""), toastStyle);
         // }
-        try {
-            await axios.delete(`${baseUrl}blog/rud/${id}/`);
-            toast.info("Your Post Has Been Deleted", toastStyle);
-        } catch (err) {
-            toast.error(err.message, toastStyle);
-        }
+        let res = await axios
+            .delete(`${baseUrl}blog/rud/${id}/`, {
+                headers: {
+                    Authorization: `Token ${
+                        JSON.parse(localStorage.getItem("DJ_REACT_CURRENT_USER")).key
+                    }`,
+                },
+            })
+            .catch(err => toast.error(err.message, toastStyle));
+        res && toast.info("Your Post Has Been Deleted", toastStyle);
         // axios.delete(URL, {
         //     headers: {
         //       Authorization: authorizationToken

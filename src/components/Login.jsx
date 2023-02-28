@@ -45,7 +45,8 @@ export default function Login() {
                         </Typography>
                         <TextField
                             style={{ marginTop: "2rem" }}
-                            label="Email"
+                            // label="Email"
+                            label="Username"
                             variant="outlined"
                             // type="email"
                             onChange={e => setLoginEmail(e.target.value)}
