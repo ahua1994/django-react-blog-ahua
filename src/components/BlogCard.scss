@@ -1,0 +1,62 @@
+.css-bhp9pd-MuiPaper-root-MuiCard-root, .MuiCardHeader-title  {
+    background-color: rgb(11, 11, 11) !important;
+    color: rgb(230, 230, 230) !important; 
+    font-size: 1.2rem !important; 
+    border-radius: 10px;
+}  
+.blogcard{
+    background-color: rgb(11, 11, 11) !important;
+    overflow: hidden;
+    width: 380px;
+} 
+.buttons {
+    margin-top: 1rem;
+}
+
+.MuiCardHeader-subheader{
+    color:rgb(160, 160, 160) !important;
+} 
+
+p.likes{
+    margin:0;
+    color:rgb(214, 214, 214);
+    font-size: 1.2rem; 
+}
+
+.MuiCardContent-root{   
+    height: 75.5px;
+    .MuiTypography-root{  
+        color: rgb(230, 230, 230) !important; 
+        font-size: 1.1rem ; 
+        word-wrap: break-word;
+    }
+}
+
+button.card-likes{
+    padding: 0; 
+    align-self: flex-end;
+}
+
+svg {
+    color:rgb(230, 230, 230); 
+    &:hover{
+        color: red;
+    }
+} 
+
+.MuiCardActions-spacing{
+    justify-content: space-between; 
+}
+
+a{
+    text-decoration: none;
+    &:visited{
+        text-decoration: none;
+    }
+} 
+
+@media screen and (max-width: 389px) {
+    .blogcard{
+        width: 350px;
+    }
+}

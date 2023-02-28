@@ -1,0 +1,87 @@
+.Details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 3rem;
+    .post {
+        background-color: black;
+        border-radius: 25px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 33%;
+        padding: 1rem 3rem;
+        margin-bottom: 2rem;
+        .MuiCardHeader-title {
+            background-color: black !important;
+            display: inline;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+        }
+        .title {
+            margin: 0.5rem 0 1.5rem 0;
+            word-wrap: break-word;
+        }
+        img {
+            margin-bottom: 1rem;
+            border-radius: 15px;
+        }
+        .MuiAvatar-circular {
+            display: inline-flex;
+        }
+        .date {
+            color: gray;
+        }
+        .info {
+            margin: 0;
+            font-size: 1.1rem;
+        }
+        .btn {
+            margin: 1rem 0 0 0;
+            padding: 0;
+            display: flex;
+            justify-content: space-between;
+            .right {
+                display: flex;
+                align-self: flex-end; 
+                p{
+                    align-self: flex-end; 
+                }
+            }
+        }
+    } 
+}
+@media screen and (max-width: 1600px) {
+    .Details {
+        .post {
+            padding: 1rem 2rem;
+            width: 44%;
+        }
+    }
+}
+@media screen and (max-width: 1300px) {
+    .Details {
+        .post {
+            padding: 0.5rem 1rem;
+            width: 55%;
+        }
+    }
+}
+@media screen and (max-width: 900px) {
+    .Details {
+        .post {
+            padding: 0.5rem 1rem;
+            width: 73%;
+        }
+    }
+}
+@media screen and (max-width: 600px) {
+    .Details {
+        .post {
+            padding: 0.5rem 1rem;
+            width: 88%;
+        }
+    }
+}

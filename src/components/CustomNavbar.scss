@@ -1,0 +1,40 @@
+.CustomNavbar{
+    display: flex;
+    justify-content: space-between;
+    position: sticky;
+    background-color: black; 
+    .brand{
+        padding: 0 1rem; 
+        cursor: pointer; 
+        font-family: Thorletto;
+        color: rgb(200, 111, 42);
+        margin-top: 5px;
+    }
+    .links{
+        display: flex;
+        justify-content: space-evenly;
+        .nav-btn{
+            padding: 0.8rem 0.6rem;
+            cursor: pointer;
+            font-size: 1.3rem;
+            transition: background-color 0.4s ease-in-out;
+            &:hover{
+                background-color: rgb(221, 140, 41);
+                color: rgb(14, 14, 14);
+            }
+        } 
+    }
+}
+
+@media screen and (max-width: 720px) {
+    .CustomNavbar{
+        .brand{
+            display: none;
+        }
+        .links{
+            .nav-btn{
+                font-size: 0.9rem;
+            }
+        }
+    }
+}
