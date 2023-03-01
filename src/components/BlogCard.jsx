@@ -1,5 +1,5 @@
 import "./BlogCard.scss";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
@@ -8,6 +8,7 @@ import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
+import { ChatBubble } from "@mui/icons-material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Typography from "@mui/material/Typography";
 import { Button } from "@mui/material";
@@ -16,10 +17,20 @@ import { BlogContext } from "../contexts/BlogContext";
 import EditBlog from "./EditBlog";
 
 const BlogCard = ({ blog }) => {
-    const { currentUser } = useContext(AuthContext);
-    const { deletePost, setLikes } = useContext(BlogContext);
+    const { currentUser, handleLike } = useContext(AuthContext);
+    const { deletePost, likes, getLikes, commentsList } = useContext(BlogContext);
+
     let date = new Date(blog.published);
     let date2 = new Date(blog.updated);
+
+    const postLikes = likes.filter(like => like.post === blog.id);
+    const postComments = commentsList.filter(x => x.post === blog.id);
+    const userLike = postLikes.filter(x => x.user === currentUser.id);
+
+    useEffect(() => {
+        getLikes();
+    }, []);
+
     return (
         <Card className="blogcard">
             <CardHeader
@@ -83,12 +94,26 @@ const BlogCard = ({ blog }) => {
                         </>
                     )}
                 </div>
-                <IconButton className="card-likes" onClick={() => setLikes(blog, currentUser?.uid)}>
-                    {blog?.likes?.length !== 0 && <p className="likes">{blog?.likes?.length}</p>}
-                    <FavoriteIcon
-                        style={{ color: blog?.likes?.includes(currentUser?.uid) ? "red" : null }}
-                    />
-                </IconButton>
+                <div className="iconbuttons">
+                    <IconButton className="card-likes">
+                        {postComments.length !== 0 && (
+                            <p className="likes">{postComments.length}</p>
+                        )}
+                        <ChatBubble></ChatBubble>
+                    </IconButton>
+                    <IconButton
+                        className="card-likes"
+                        style={{ marginLeft: "1rem" }}
+                        onClick={() => handleLike(userLike[0], currentUser?.id, blog.id)}
+                    >
+                        {postLikes.length !== 0 && <p className="likes"> {postLikes.length}</p>}
+                        <FavoriteIcon
+                            style={{
+                                color: userLike.length !== 0 ? "red" : null,
+                            }}
+                        />
+                    </IconButton>
+                </div>
             </CardActions>
         </Card>
     );

@@ -25,12 +25,38 @@ const AuthContextProvider = ({ children }) => {
     const [registerUsername, setRegisterUsername] = useState("");
     const [registerEmail, setRegisterEmail] = useState("");
     const [registerPassword, setRegisterPassword] = useState("");
-    const { setOpenLogin, baseUrl } = useContext(BlogContext);
+    const { setOpenLogin, baseUrl, likes } = useContext(BlogContext);
     const toastStyle = {
         position: "top-center",
         autoClose: 3000,
         theme: "dark",
         hideProgressBar: true,
+    };
+
+    const handleLike = async (like, user, post) => {
+        if (like) {
+            let res = await axios
+                .delete(`${baseUrl}blog/like/${like.id}/`, {
+                    headers: {
+                        Authorization: `Token ${currentUser?.key}`,
+                    },
+                })
+                .catch(err => toast.error(err.message, toastStyle));
+            res && toast("🦄 Removed Like", toastStyle);
+        } else {
+            let res = await axios
+                .post(
+                    `${baseUrl}blog/like/`,
+                    { user: user, post: post },
+                    {
+                        headers: {
+                            Authorization: `Token ${currentUser?.key}`,
+                        },
+                    }
+                )
+                .catch(err => toast.error(err.message, toastStyle));
+            res && toast.success("Liked!", toastStyle);
+        }
     };
 
     const handleComment = async (comment, post) => {
@@ -45,7 +71,7 @@ const AuthContextProvider = ({ children }) => {
                 }
             )
             .catch(err => toast.error("Login to Comment", toastStyle));
-        res.data && toast.success("Comment has been posted!", toastStyle);
+        res && toast.success("Comment has been posted!", toastStyle);
     };
     // useEffect(() => {
     //     // setCurrentUser(JSON.parse(localStorage.getItem("DJ_REACT_CURRENT_USER")));
@@ -155,6 +181,7 @@ const AuthContextProvider = ({ children }) => {
                 handleLogin,
                 handleRegister,
                 handleComment,
+                handleLike,
                 // signInProvider,
                 logout,
                 setCurrentUser,

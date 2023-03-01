@@ -13,6 +13,7 @@ const BlogContextProvider = ({ children }) => {
     const [openEditBlog, setOpenEditBlog] = useState(false);
 
     const [blogs, setBlogs] = useState([]);
+    const [likes, setLikes] = useState([]);
     const [commentsList, setCommentsList] = useState([]);
 
     const baseUrl = "http://127.0.0.1:8000/";
@@ -40,8 +41,16 @@ const BlogContextProvider = ({ children }) => {
         axios
             .get(`${baseUrl}blog/comment/all/`)
             .then(res => {
-                console.log(res.data);
                 setCommentsList(res.data);
+            })
+            .catch(err => toast.error(err.message, toastStyle));
+    };
+
+    const getLikes = () => {
+        axios
+            .get(`${baseUrl}blog/like/all/`)
+            .then(res => {
+                setLikes(res.data);
             })
             .catch(err => toast.error(err.message, toastStyle));
     };
@@ -192,6 +201,7 @@ const BlogContextProvider = ({ children }) => {
             value={{
                 baseUrl,
                 blogs,
+                likes,
                 openLogin,
                 openRegister,
                 openAddBlog,
@@ -200,6 +210,7 @@ const BlogContextProvider = ({ children }) => {
                 toastStyle,
                 commentsList,
                 getPosts,
+                getLikes,
                 getComments,
                 editPost,
                 // setLikes,

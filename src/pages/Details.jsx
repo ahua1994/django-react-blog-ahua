@@ -64,7 +64,7 @@ const Details = () => {
                     <CommentBox post={blog.id} />
                     <hr style={{ width: "100%" }}></hr>
                     {commentsList
-                        // .filter(obj => obj.post === blog.id)
+                        .filter(obj => obj.post === blog.id)
                         .map(obj => (
                             <Comment data={obj} key={obj.id} />
                         ))}
