@@ -21,7 +21,10 @@
         } 
         p {
             font-size: medium;
-            margin: 0;
+            margin: 0; 
+        }
+        svg{ 
+            align-self: flex-end;
         }
     }
 }

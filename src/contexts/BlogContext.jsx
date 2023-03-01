@@ -37,6 +37,7 @@ const BlogContextProvider = ({ children }) => {
         p: 4,
         borderRadius: "15px",
     };
+
     const getComments = () => {
         axios
             .get(`${baseUrl}blog/comment/all/`)
@@ -44,6 +45,19 @@ const BlogContextProvider = ({ children }) => {
                 setCommentsList(res.data);
             })
             .catch(err => toast.error(err.message, toastStyle));
+    };
+
+    const deleteComment = async id => {
+        let res = await axios
+            .delete(`${baseUrl}/blog/comment/${id}`, {
+                headers: {
+                    Authorization: `Token ${
+                        JSON.parse(localStorage.getItem("DJ_REACT_CURRENT_USER")).key
+                    }`,
+                },
+            })
+            .catch(err => toast.error(err.message, toastStyle));
+        res && toast("🦄 Comment Removed", toastStyle);
     };
 
     const getLikes = () => {
@@ -215,6 +229,7 @@ const BlogContextProvider = ({ children }) => {
                 editPost,
                 // setLikes,
                 deletePost,
+                deleteComment,
                 setOpenLogin,
                 setOpenRegister,
                 setOpenAddBlog,

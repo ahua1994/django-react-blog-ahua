@@ -25,7 +25,7 @@ const BlogCard = ({ blog }) => {
 
     const postLikes = likes.filter(like => like.post === blog.id);
     const postComments = commentsList.filter(x => x.post === blog.id);
-    const userLike = postLikes.filter(x => x.user === currentUser.id);
+    const userLike = postLikes.filter(x => x.user === currentUser?.id);
 
     useEffect(() => {
         getLikes();

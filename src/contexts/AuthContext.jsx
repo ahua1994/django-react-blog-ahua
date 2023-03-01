@@ -25,7 +25,7 @@ const AuthContextProvider = ({ children }) => {
     const [registerUsername, setRegisterUsername] = useState("");
     const [registerEmail, setRegisterEmail] = useState("");
     const [registerPassword, setRegisterPassword] = useState("");
-    const { setOpenLogin, baseUrl, likes } = useContext(BlogContext);
+    const { setOpenLogin, baseUrl } = useContext(BlogContext);
     const toastStyle = {
         position: "top-center",
         autoClose: 3000,
@@ -44,6 +44,7 @@ const AuthContextProvider = ({ children }) => {
                 .catch(err => toast.error(err.message, toastStyle));
             res && toast("🦄 Removed Like", toastStyle);
         } else {
+            console.log(like, user, post);
             let res = await axios
                 .post(
                     `${baseUrl}blog/like/`,

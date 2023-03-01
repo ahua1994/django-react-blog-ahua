@@ -9,20 +9,27 @@ import { BlogContext } from "../contexts/BlogContext";
 import { AuthContext } from "../contexts/AuthContext";
 import CommentBox from "../components/CommentBox";
 import Comment from "../components/Comment";
+import { ChatBubble } from "@mui/icons-material";
 
 const Details = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const blog = location?.state?.blog || null;
-    const { currentUser } = useContext(AuthContext);
+    const { currentUser, handleLike } = useContext(AuthContext);
 
-    const { setLikes, commentsList, getComments } = useContext(BlogContext);
+    const { commentsList, getComments, likes, getLikes } = useContext(BlogContext);
     useEffect(() => {
         getComments();
+        getLikes();
     }, []);
 
     let date = new Date(blog.published);
     let date2 = new Date(blog.updated);
+
+    const postLikes = likes.filter(like => like.post === blog.id);
+    const userLike = postLikes.filter(x => x.user === currentUser?.id);
+    const postComments = commentsList.filter(x => x.post === blog.id);
+
     return (
         <div className="Details">
             {blog ? (
@@ -63,28 +70,34 @@ const Details = () => {
                     <hr style={{ width: "100%", marginTop: "2rem" }}></hr>
                     <CommentBox post={blog.id} />
                     <hr style={{ width: "100%" }}></hr>
-                    {commentsList
-                        .filter(obj => obj.post === blog.id)
-                        .map(obj => (
-                            <Comment data={obj} key={obj.id} />
-                        ))}
+                    {postComments.map(obj => (
+                        <Comment data={obj} key={obj.id} />
+                    ))}
                     <div className="btn">
                         <Button onClick={() => navigate(-1)} color="secondary" variant="contained">
                             Back
                         </Button>
-                        <IconButton
-                            onClick={() => setLikes(blog, currentUser?.uid)}
-                            className="right"
-                        >
-                            {blog?.likes?.length !== 0 && (
-                                <p className="likes">{blog?.likes?.length}</p>
-                            )}
-                            <FavoriteIcon
-                                style={{
-                                    color: blog?.likes?.includes(currentUser?.uid) ? "red" : null,
-                                }}
-                            />
-                        </IconButton>
+                        <div className="iconbuttons">
+                            <IconButton>
+                                {postComments.length !== 0 && (
+                                    <p className="likes">{postComments.length}</p>
+                                )}
+                                <ChatBubble />
+                            </IconButton>
+                            <IconButton
+                                onClick={() => handleLike(userLike[0], currentUser?.id, blog.id)}
+                                className="right"
+                            >
+                                {postLikes.length !== 0 && (
+                                    <p className="likes"> {postLikes.length}</p>
+                                )}
+                                <FavoriteIcon
+                                    style={{
+                                        color: userLike.length !== 0 ? "red" : null,
+                                    }}
+                                />
+                            </IconButton>
+                        </div>
                     </div>
                 </div>
             ) : (
