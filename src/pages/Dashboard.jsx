@@ -5,11 +5,9 @@ import { BlogContext } from "../contexts/BlogContext";
 
 const Dashboard = () => {
     const { getPosts, blogs } = useContext(BlogContext);
-
     useEffect(() => {
         getPosts();
     }, []);
-
     return (
         <div className="Dashboard">
             <div className="blogs">

@@ -4,19 +4,25 @@ import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { BlogContext } from "../contexts/BlogContext";
 import { AuthContext } from "../contexts/AuthContext";
+import CommentBox from "../components/CommentBox";
+import Comment from "../components/Comment";
 
 const Details = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const blog = location?.state?.blog || null;
     const { currentUser } = useContext(AuthContext);
-    const { setLikes } = useContext(BlogContext);
+
+    const { setLikes, commentsList, getComments } = useContext(BlogContext);
+    useEffect(() => {
+        getComments();
+    }, []);
+
     let date = new Date(blog.published);
     let date2 = new Date(blog.updated);
-
     return (
         <div className="Details">
             {blog ? (
@@ -54,16 +60,18 @@ const Details = () => {
                               )}`}
                     </p>
                     <p className="info">{blog.content}</p>
+                    <hr style={{ width: "100%", marginTop: "2rem" }}></hr>
+                    <CommentBox post={blog.id} />
+                    <hr style={{ width: "100%" }}></hr>
+                    {commentsList
+                        // .filter(obj => obj.post === blog.id)
+                        .map(obj => (
+                            <Comment data={obj} key={obj.id} />
+                        ))}
                     <div className="btn">
-                        <IconButton>
-                            <Button
-                                onClick={() => navigate(-1)}
-                                color="secondary"
-                                variant="contained"
-                            >
-                                Back
-                            </Button>
-                        </IconButton>
+                        <Button onClick={() => navigate(-1)} color="secondary" variant="contained">
+                            Back
+                        </Button>
                         <IconButton
                             onClick={() => setLikes(blog, currentUser?.uid)}
                             className="right"

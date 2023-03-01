@@ -12,6 +12,32 @@
         width: 33%;
         padding: 1rem 3rem;
         margin-bottom: 2rem;
+        .MuiBox-root {
+            .icon-username{ 
+                p{
+                    display: inline-block;
+                    transform: translate(0,-6px);
+                }
+            }
+        }
+        .MuiOutlinedInput-root fieldset {
+            border-color: #1976d2;
+        }
+        // .MuiInput-underline:after {
+        //     border-color: red;
+        // }
+        // :hover fieldset{
+        //     border-color: red;
+        // }
+        // .Mui-focused fieldset{
+        //     border-color: red;
+        // }
+        .MuiInputBase-input {
+            color: white  !important; 
+        }
+        .MuiInputLabel-standard,.MuiInputLabel-animated{
+            color: #1976d2; 
+        } 
         .MuiCardHeader-title {
             background-color: black !important;
             display: inline;
@@ -39,7 +65,7 @@
             font-size: 1.1rem;
         }
         .btn {
-            margin: 1rem 0 0 0;
+            margin: 1.2rem 0 1rem 0;
             padding: 0;
             display: flex;
             justify-content: space-between;
@@ -52,7 +78,7 @@
             }
         }
     } 
-}
+} 
 @media screen and (max-width: 1600px) {
     .Details {
         .post {
@@ -64,7 +90,7 @@
 @media screen and (max-width: 1300px) {
     .Details {
         .post {
-            padding: 0.5rem 1rem;
+            padding: 1rem 2rem;
             width: 55%;
         }
     }
@@ -72,7 +98,7 @@
 @media screen and (max-width: 900px) {
     .Details {
         .post {
-            padding: 0.5rem 1rem;
+            padding: 1rem 2rem;
             width: 73%;
         }
     }
@@ -80,7 +106,7 @@
 @media screen and (max-width: 600px) {
     .Details {
         .post {
-            padding: 0.5rem 1rem;
+            padding: 1rem 2rem;
             width: 88%;
         }
     }

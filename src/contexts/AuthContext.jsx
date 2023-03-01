@@ -33,6 +33,20 @@ const AuthContextProvider = ({ children }) => {
         hideProgressBar: true,
     };
 
+    const handleComment = async (comment, post) => {
+        const res = await axios
+            .post(
+                `${baseUrl}blog/comment/`,
+                { content: comment, post: post },
+                {
+                    headers: {
+                        Authorization: `Token ${currentUser?.key}`,
+                    },
+                }
+            )
+            .catch(err => toast.error("Login to Comment", toastStyle));
+        res.data && toast.success("Comment has been posted!", toastStyle);
+    };
     // useEffect(() => {
     //     // setCurrentUser(JSON.parse(localStorage.getItem("DJ_REACT_CURRENT_USER")));
     // }, [currentUser]);
@@ -140,6 +154,7 @@ const AuthContextProvider = ({ children }) => {
                 setRegisterPassword,
                 handleLogin,
                 handleRegister,
+                handleComment,
                 // signInProvider,
                 logout,
                 setCurrentUser,
