@@ -22,6 +22,7 @@ const AuthContextProvider = ({ children }) => {
         JSON.parse(localStorage.getItem("DJ_REACT_CURRENT_USER"))
     );
     const [loginPassword, setLoginPassword] = useState("");
+    const [onProcess, setOnProcess] = useState(false);
     const [registerUsername, setRegisterUsername] = useState("");
     const [registerEmail, setRegisterEmail] = useState("");
     const [registerPassword, setRegisterPassword] = useState("");
@@ -34,6 +35,7 @@ const AuthContextProvider = ({ children }) => {
     };
 
     const handleLike = async (like, user, post) => {
+        setOnProcess(true);
         if (like) {
             let res = await axios
                 .delete(`${baseUrl}blog/like/${like.id}/`, {
@@ -43,8 +45,8 @@ const AuthContextProvider = ({ children }) => {
                 })
                 .catch(err => toast.error(err.message, toastStyle));
             res && toast("🦄 Removed Like", toastStyle);
+            setOnProcess(false);
         } else {
-            console.log(like, user, post);
             let res = await axios
                 .post(
                     `${baseUrl}blog/like/`,
@@ -57,10 +59,12 @@ const AuthContextProvider = ({ children }) => {
                 )
                 .catch(err => toast.error(err.message, toastStyle));
             res && toast.success("Liked!", toastStyle);
+            setOnProcess(false);
         }
     };
 
     const handleComment = async (comment, post) => {
+        setOnProcess(true);
         const res = await axios
             .post(
                 `${baseUrl}blog/comment/`,
@@ -73,6 +77,7 @@ const AuthContextProvider = ({ children }) => {
             )
             .catch(err => toast.error("Login to Comment", toastStyle));
         res && toast.success("Comment has been posted!", toastStyle);
+        setOnProcess(false);
     };
     // useEffect(() => {
     //     // setCurrentUser(JSON.parse(localStorage.getItem("DJ_REACT_CURRENT_USER")));
@@ -174,6 +179,7 @@ const AuthContextProvider = ({ children }) => {
                 registerEmail,
                 registerPassword,
                 currentUser,
+                onProcess,
                 setLoginEmail,
                 setLoginPassword,
                 setRegisterUsername,

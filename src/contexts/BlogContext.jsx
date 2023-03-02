@@ -58,6 +58,7 @@ const BlogContextProvider = ({ children }) => {
             })
             .catch(err => toast.error(err.message, toastStyle));
         res && toast("🦄 Comment Removed", toastStyle);
+        getComments();
     };
 
     const getLikes = () => {
@@ -120,6 +121,7 @@ const BlogContextProvider = ({ children }) => {
             })
             .catch(err => toast.error(err.message, toastStyle));
         res && toast.success("Thank You For Posting!", toastStyle);
+        getPosts();
     };
 
     // const setLikes = async (obj, uid) => {
@@ -176,6 +178,7 @@ const BlogContextProvider = ({ children }) => {
                 toast.error(err.message, toastStyle);
             });
         res && toast.success("Your Post Has Been Edited!", toastStyle);
+        getPosts();
     };
 
     const deletePost = async id => {
@@ -195,6 +198,7 @@ const BlogContextProvider = ({ children }) => {
             })
             .catch(err => toast.error(err.message, toastStyle));
         res && toast.info("Your Post Has Been Deleted", toastStyle);
+        getPosts();
         // axios.delete(URL, {
         //     headers: {
         //       Authorization: authorizationToken

@@ -1,5 +1,5 @@
 import "./BlogCard.scss";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
@@ -17,8 +17,9 @@ import { BlogContext } from "../contexts/BlogContext";
 import EditBlog from "./EditBlog";
 
 const BlogCard = ({ blog }) => {
-    const { currentUser, handleLike } = useContext(AuthContext);
-    const { deletePost, likes, getLikes, commentsList } = useContext(BlogContext);
+    const { currentUser, handleLike, onProcess } = useContext(AuthContext);
+    const { deletePost, likes, getLikes, commentsList, getComments } = useContext(BlogContext);
+    const [refresh, setRefresh] = useState(true);
 
     let date = new Date(blog.published);
     let date2 = new Date(blog.updated);
@@ -28,8 +29,15 @@ const BlogCard = ({ blog }) => {
     const userLike = postLikes.filter(x => x.user === currentUser?.id);
 
     useEffect(() => {
-        getLikes();
-    }, []);
+        if (!onProcess) {
+            if (refresh) {
+                getComments();
+                getLikes();
+            } else {
+                setRefresh(false);
+            }
+        }
+    }, [refresh, onProcess]);
 
     return (
         <Card className="blogcard">
@@ -104,7 +112,10 @@ const BlogCard = ({ blog }) => {
                     <IconButton
                         className="card-likes"
                         style={{ marginLeft: "1rem" }}
-                        onClick={() => handleLike(userLike[0], currentUser?.id, blog.id)}
+                        onClick={() => {
+                            handleLike(userLike[0], currentUser?.id, blog.id);
+                            setRefresh(true);
+                        }}
                     >
                         {postLikes.length !== 0 && <p className="likes"> {postLikes.length}</p>}
                         <FavoriteIcon

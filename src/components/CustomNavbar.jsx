@@ -2,7 +2,7 @@ import "./CustomNavbar.scss";
 import { useNavigate } from "react-router-dom";
 import Login from "./Login";
 import Register from "./Register";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
