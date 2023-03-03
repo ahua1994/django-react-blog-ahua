@@ -18,6 +18,7 @@ const Details = () => {
     const { currentUser, handleLike } = useContext(AuthContext);
 
     const { commentsList, getComments, likes, getLikes } = useContext(BlogContext);
+
     useEffect(() => {
         getComments();
         getLikes();
@@ -45,7 +46,10 @@ const Details = () => {
                     />
                     <hr style={{ width: "100%" }}></hr>
                     <h2 className="title">{blog.title} </h2>
-                    <img src={blog.image || "https://picsum.photos/1000"} alt={"invalid img-url"} />
+                    <img
+                        src={blog.image_url || "https://picsum.photos/1000"}
+                        alt={"invalid img-url"}
+                    />
                     <hr style={{ width: "100%" }}></hr>
                     <p className="date">
                         {String(date) === String(date2)

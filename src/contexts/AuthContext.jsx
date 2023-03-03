@@ -160,10 +160,20 @@ const AuthContextProvider = ({ children }) => {
     const logout = () => {
         // toast.info("You Have Been Signed Out", toastStyle);
         // signOut(auth);
+        axios.post(
+            `${baseUrl}user/logout/`,
+            {},
+            {
+                headers: {
+                    Authorization: `Token ${
+                        JSON.parse(localStorage.getItem("DJ_REACT_CURRENT_USER")).key
+                    }`,
+                },
+            }
+        );
         toast.info("You Have Been Signed Out", toastStyle);
         localStorage.removeItem("DJ_REACT_CURRENT_USER");
         setCurrentUser(null);
-        axios.post(`${baseUrl}user/logout/`);
     };
 
     return (
