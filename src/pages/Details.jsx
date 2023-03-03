@@ -4,7 +4,7 @@ import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { BlogContext } from "../contexts/BlogContext";
 import { AuthContext } from "../contexts/AuthContext";
 import CommentBox from "../components/CommentBox";
@@ -15,20 +15,13 @@ const Details = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const blog = location?.state?.blog || null;
-    const [refresh, setRefresh] = useState(true);
-    const { currentUser, handleLike, onProcess } = useContext(AuthContext);
+    const { currentUser, handleLike } = useContext(AuthContext);
 
     const { commentsList, getComments, likes, getLikes } = useContext(BlogContext);
     useEffect(() => {
-        if (!onProcess) {
-            if (refresh) {
-                getComments();
-                getLikes();
-            } else {
-                setRefresh(false);
-            }
-        }
-    }, [refresh, onProcess]);
+        getComments();
+        getLikes();
+    }, []);
 
     let date = new Date(blog.published);
     let date2 = new Date(blog.updated);
@@ -92,10 +85,7 @@ const Details = () => {
                                 <ChatBubble />
                             </IconButton>
                             <IconButton
-                                onClick={() => {
-                                    handleLike(userLike[0], currentUser?.id, blog.id);
-                                    setRefresh(true);
-                                }}
+                                onClick={() => handleLike(userLike[0], currentUser?.id, blog.id)}
                                 className="right"
                             >
                                 {postLikes.length !== 0 && (

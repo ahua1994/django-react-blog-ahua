@@ -1,7 +1,7 @@
 // import { auth } from "../helpers/firebase";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { createContext, useState, useContext, useEffect } from "react";
+import { createContext, useState, useContext } from "react";
 // import {
 //     signInWithEmailAndPassword,
 //     sendPasswordResetEmail,
@@ -22,11 +22,10 @@ const AuthContextProvider = ({ children }) => {
         JSON.parse(localStorage.getItem("DJ_REACT_CURRENT_USER"))
     );
     const [loginPassword, setLoginPassword] = useState("");
-    const [onProcess, setOnProcess] = useState(false);
     const [registerUsername, setRegisterUsername] = useState("");
     const [registerEmail, setRegisterEmail] = useState("");
     const [registerPassword, setRegisterPassword] = useState("");
-    const { setOpenLogin, baseUrl } = useContext(BlogContext);
+    const { setOpenLogin, baseUrl, getLikes, getComments } = useContext(BlogContext);
     const toastStyle = {
         position: "top-center",
         autoClose: 3000,
@@ -35,7 +34,6 @@ const AuthContextProvider = ({ children }) => {
     };
 
     const handleLike = async (like, user, post) => {
-        setOnProcess(true);
         if (like) {
             let res = await axios
                 .delete(`${baseUrl}blog/like/${like.id}/`, {
@@ -45,7 +43,6 @@ const AuthContextProvider = ({ children }) => {
                 })
                 .catch(err => toast.error(err.message, toastStyle));
             res && toast("🦄 Removed Like", toastStyle);
-            setOnProcess(false);
         } else {
             let res = await axios
                 .post(
@@ -59,12 +56,11 @@ const AuthContextProvider = ({ children }) => {
                 )
                 .catch(err => toast.error(err.message, toastStyle));
             res && toast.success("Liked!", toastStyle);
-            setOnProcess(false);
         }
+        getLikes();
     };
 
     const handleComment = async (comment, post) => {
-        setOnProcess(true);
         const res = await axios
             .post(
                 `${baseUrl}blog/comment/`,
@@ -77,7 +73,7 @@ const AuthContextProvider = ({ children }) => {
             )
             .catch(err => toast.error("Login to Comment", toastStyle));
         res && toast.success("Comment has been posted!", toastStyle);
-        setOnProcess(false);
+        getComments();
     };
     // useEffect(() => {
     //     // setCurrentUser(JSON.parse(localStorage.getItem("DJ_REACT_CURRENT_USER")));
@@ -144,7 +140,7 @@ const AuthContextProvider = ({ children }) => {
                 password: loginPassword,
             })
             .catch(err => toast.error("An Error Occured :(", toastStyle));
-        if (res) {
+        if (res.data) {
             setCurrentUser({ ...res.data });
             localStorage.setItem("DJ_REACT_CURRENT_USER", JSON.stringify({ ...res.data }));
             setLoginEmail("");
@@ -179,7 +175,6 @@ const AuthContextProvider = ({ children }) => {
                 registerEmail,
                 registerPassword,
                 currentUser,
-                onProcess,
                 setLoginEmail,
                 setLoginPassword,
                 setRegisterUsername,

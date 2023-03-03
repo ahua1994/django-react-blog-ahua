@@ -16,7 +16,7 @@ const BlogContextProvider = ({ children }) => {
     const [likes, setLikes] = useState([]);
     const [commentsList, setCommentsList] = useState([]);
 
-    const baseUrl = "http://127.0.0.1:8000/";
+    const baseUrl = "https://ahua1994.pythonanywhere.com/";
 
     const toastStyle = {
         position: "top-center",
