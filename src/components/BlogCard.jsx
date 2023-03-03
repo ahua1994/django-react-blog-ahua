@@ -107,7 +107,9 @@ const BlogCard = ({ blog }) => {
                         {postComments.length !== 0 && (
                             <p className="likes">{postComments.length}</p>
                         )}
-                        <ChatBubble></ChatBubble>
+                        <Link to={`/details/${blog.id}`} state={{ blog }}>
+                            <ChatBubble />
+                        </Link>
                     </IconButton>
                     <IconButton
                         className="card-likes"
