@@ -57,7 +57,7 @@ const BlogContextProvider = ({ children }) => {
                 },
             })
             .catch(err => toast.error(err.message, toastStyle));
-        res && toast("🦄 Comment Removed", toastStyle);
+        res.data && toast("🦄 Comment Removed", toastStyle);
         getComments();
     };
 
@@ -120,7 +120,7 @@ const BlogContextProvider = ({ children }) => {
                 },
             })
             .catch(err => toast.error(err.message, toastStyle));
-        res && toast.success("Thank You For Posting!", toastStyle);
+        res.data && toast.success("Thank You For Posting!", toastStyle);
         getPosts();
     };
 
@@ -177,7 +177,7 @@ const BlogContextProvider = ({ children }) => {
             .catch(err => {
                 toast.error(err.message, toastStyle);
             });
-        res && toast.success("Your Post Has Been Edited!", toastStyle);
+        res.data && toast.success("Your Post Has Been Edited!", toastStyle);
         getPosts();
     };
 
@@ -197,7 +197,7 @@ const BlogContextProvider = ({ children }) => {
                 },
             })
             .catch(err => toast.error(err.message, toastStyle));
-        res && toast.info("Your Post Has Been Deleted", toastStyle);
+        res.data && toast.info("Your Post Has Been Deleted", toastStyle);
         getPosts();
         // axios.delete(URL, {
         //     headers: {

@@ -32,7 +32,6 @@ const AuthContextProvider = ({ children }) => {
         theme: "dark",
         hideProgressBar: true,
     };
-
     const handleLike = async (like, user, post) => {
         if (like) {
             let res = await axios
@@ -42,7 +41,7 @@ const AuthContextProvider = ({ children }) => {
                     },
                 })
                 .catch(err => toast.error(err.message, toastStyle));
-            res && toast("🦄 Removed Like", toastStyle);
+            res.data && toast("🦄 Removed Like", toastStyle);
         } else {
             let res = await axios
                 .post(
@@ -55,7 +54,7 @@ const AuthContextProvider = ({ children }) => {
                     }
                 )
                 .catch(err => toast.error(err.message, toastStyle));
-            res && toast.success("Liked!", toastStyle);
+            res.data && toast.success("Liked!", toastStyle);
         }
         getLikes();
     };
@@ -71,8 +70,9 @@ const AuthContextProvider = ({ children }) => {
                     },
                 }
             )
-            .catch(err => toast.error("Login to Comment", toastStyle));
-        res && toast.success("Comment has been posted!", toastStyle);
+            .catch(err => toast.error(err.message, toastStyle));
+
+        res.data && toast.success("Comment has been posted!", toastStyle);
         getComments();
     };
     // useEffect(() => {
@@ -94,7 +94,7 @@ const AuthContextProvider = ({ children }) => {
                 username: registerUsername,
             })
             .catch(err => toast.error(err.message, toastStyle));
-        if (res) {
+        if (res.data) {
             localStorage.setItem(
                 "DJ_REACT_CURRENT_USER",
                 JSON.stringify({ key: res.data.key, ...res.data.user })
